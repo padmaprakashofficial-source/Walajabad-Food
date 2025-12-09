@@ -1,70 +1,304 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>QuickBite — Order Food (COD only)</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Walajabad Shop - SpiceCorner</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&h=800&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.carousel-container {
+  width: 100%;
+  max-height: 180px; /* smaller carousel */
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.carousel-slide {
+  display: flex;
+  width: 300%;
+  animation: slide 45s infinite;
+}
+
+.carousel-item {
+  position: relative;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.carousel-caption {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  background: rgba(0,0,0,0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+@keyframes slide {
+  0% { transform: translateX(0%); }
+  33% { transform: translateX(-100%); }
+  66% { transform: translateX(-200%); }
+  100% { transform: translateX(0%); }
+}
+
+.sub-header {
+    text-align: center;
+    font-size: 16px;
+    margin: 10px 0 20px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 5px;
+}
+
+.menu-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.item {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.button {
+    margin-top: 10px;
+    background: #ff9800;
+    color: #000;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+}
+
+.cart-box {
+    background: rgba(0,0,0,0.7);
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+/* Modals */
+.modal {
+    display: none;
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+}
+
+.modal-content h2 {
+    text-align: center;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: none;
+}
+
+.modal-content button {
+    margin-top: 10px;
+    width: 100%;
+}
+</style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">QuickBite</div>
-    <nav class="nav">
-      <a>Home</a>
-      <a>Menu</a>
-      <a>Contact</a>
-    </nav>
-  </header>
 
-  <main class="container">
-    <section class="left">
-      <h2>Shops near you</h2>
-      <div class="shops" id="shops"></div>
-    </section>
+<!-- Carousel -->
+<div class="carousel-container">
+  <div class="carousel-slide">
+    <div class="carousel-item">
+      <img src="https://www.licious.in/blog/wp-content/uploads/2022/06/chicken-hyderabadi-biryani-01-750x750.jpg" alt="Chicken Biryani">
+      <div class="carousel-caption"></div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://www.licious.in/blog/wp-content/uploads/2022/06/mutton-hyderabadi-biryani-01-750x750.jpg" alt="Mutton Biryani">
+      <div class="carousel-caption">Walajabad Shop</div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://onestophalal.com/cdn/shop/articles/beef_biryani-1692140447453_1200x.jpg" alt="Beef Biryani">
+      <div class="carousel-caption"></div>
+    </div>
+  </div>
+</div>
 
-    <section class="right">
-      <div class="order-box">
-        <h3>Cart</h3>
-        <div id="cartEmpty">Your cart is empty</div>
-        <ul id="cartItems"></ul>
+<div class="sub-header">SpiceCorner • Indian • Fast Delivery • Cash on Delivery</div>
 
-        <h4>Delivery details</h4>
-        <form id="orderForm" autocomplete="off">
-          <label>
-            Name
-            <input type="text" id="custName" required placeholder="Full name" />
-          </label>
-          <label>
-            Mobile
-            <input type="tel" id="custMobile" required placeholder="e.g. +919999999999" />
-          </label>
-          <label>
-            Address
-            <textarea id="custAddress" required placeholder="House, street, city, pincode"></textarea>
-          </label>
+<div class="menu-container" id="menu"></div>
 
-          <label>
-            Notify method:
-            <select id="notifyMethod">
-              <option value="free-sms">Free: open SMS draft (customer must send)</option>
-              <option value="free-wa">Free: open WhatsApp draft (customer must send)</option>
-              <option value="auto-sms">Automatic SMS to owner (requires server)</option>
-            </select>
-          </label>
+<div class="cart-box" id="cartBox">
+    <h2>Cart</h2>
+    <div id="cartList"></div>
+    <button class="button" onclick="openCustomerModal()">Place Order (COD)</button>
+</div>
 
-          <div class="cod-note">Payment method: <strong>Cash On Delivery (COD)</strong></div>
-          <button type="submit" class="primary">Place Order (COD)</button>
-        </form>
+<!-- Customer Details Modal -->
+<div id="customerModal" class="modal">
+  <div class="modal-content">
+    <h2>Enter Your Details</h2>
+    <input type="text" id="custName" placeholder="Your Name" />
+    <input type="text" id="custMobile" placeholder="Mobile Number" />
+    <input type="text" id="custAddress" placeholder="Delivery Address" />
+    <button class="button" onclick="submitCustomerDetails()">Submit</button>
+    <button class="button" style="background:red;" onclick="closeCustomerModal()">Cancel</button>
+  </div>
+</div>
 
-        <div id="orderResult" class="result"></div>
-      </div>
-    </section>
-  </main>
+<!-- Bill Modal -->
+<div id="billModal" class="modal">
+  <div class="modal-content">
+    <h2>Bill Preview</h2>
+    <div id="billItems"></div>
+    <div>Delivery Charge: ₹20</div>
+    <div id="billTotal"></div>
+    <button class="button" onclick="sendWhatsApp()">OK</button>
+    <button class="button" style="background:red;" onclick="closeBill()">Cancel</button>
+  </div>
+</div>
 
-  <footer class="footer">
-    Made with ❤️ — QuickBite demo (no accounts required)
-  </footer>
+<script>
+const MENU = [
+  { id: 'c1', name: 'Chicken Biryani', price: 180, img: 'https://www.licious.in/blog/wp-content/uploads/2022/06/chicken-hyderabadi-biryani-01-750x750.jpg' },
+  { id: 'c2', name: 'Mutton Biryani', price: 260, img: 'https://www.licious.in/blog/wp-content/uploads/2022/06/mutton-hyderabadi-biryani-01-750x750.jpg' },
+  { id: 'c3', name: 'Beef Biryani', price: 220, img: 'https://onestophalal.com/cdn/shop/articles/beef_biryani-1692140447453_1200x.jpg' },
+  { id: 'c4', name: 'Chicken Rice', price: 130, img: 'https://b2958125.smushcdn.com/2958125/wp-content/uploads/Street-Style-Chicken-Rice--768x1024.jpg' },
+  { id: 'c5', name: 'Veg Rice', price: 120, img: 'https://shwetainthekitchen.com/wp-content/uploads/2023/06/veg-fried-rice.jpg' },
+  { id: 'c6', name: 'Parotta', price: 25, img: 'https://i.pinimg.com/564x/47/74/86/477486f48831cbea4c5298347513e033.jpg' },
+  { id: 'c7', name: 'Dosai', price: 50, img: 'https://images.unsplash.com/photo-1633945274405-7e99f0e90a43' }
+];
 
-  <script src="script.js"></script>
+let cart = [];
+let userDetails = {};
+
+function loadMenu() {
+  const box = document.getElementById('menu');
+  box.innerHTML = '';
+  let count = 0;
+  for(let i=0;i<MENU.length && count<6;i++){
+    const item = MENU[i];
+    box.innerHTML += `
+      <div class="item">
+        <img src="${item.img}" />
+        <h3>${item.name}</h3>
+        <p>₹ ${item.price}</p>
+        <button class="button" onclick='addToCart(${JSON.stringify(item)})'>Add</button>
+      </div>`;
+    count++;
+  }
+}
+
+function addToCart(item){
+  cart.push(item);
+  renderCart();
+}
+
+function removeFromCart(index){
+  cart.splice(index,1);
+  renderCart();
+}
+
+function renderCart(){
+  const list=document.getElementById('cartList');
+  list.innerHTML='';
+  cart.forEach((c,i)=>{
+    list.innerHTML+=`<div>${c.name} - ₹${c.price} 
+      <button class="button" style="background:red; color:white; padding:3px 6px; margin-left:10px;" onclick="removeFromCart(${i})">Remove</button></div>`;
+  });
+}
+
+function openCustomerModal(){
+  if(cart.length===0){ alert('Cart empty!'); return; }
+  document.getElementById('customerModal').style.display='flex';
+}
+
+function closeCustomerModal(){
+  document.getElementById('customerModal').style.display='none';
+}
+
+function submitCustomerDetails(){
+  const name = document.getElementById('custName').value.trim();
+  const mobile = document.getElementById('custMobile').value.trim();
+  const address = document.getElementById('custAddress').value.trim();
+
+  if(!name || !mobile || !address){
+    alert('Please fill all details.');
+    return;
+  }
+
+  userDetails = { name, mobile, address };
+  closeCustomerModal();
+  previewBill();
+}
+
+function previewBill(){
+  let billItemsDiv = document.getElementById('billItems');
+  billItemsDiv.innerHTML = '';
+  let total = 0;
+  cart.forEach(c=>{
+    billItemsDiv.innerHTML += `<div>${c.name} - ₹${c.price}</div>`;
+    total += c.price;
+  });
+  total += 20; // delivery charge
+  document.getElementById('billTotal').innerHTML = `<strong>Total: ₹${total}</strong>`;
+  document.getElementById('billModal').style.display='flex';
+}
+
+function closeBill(){
+  document.getElementById('billModal').style.display='none';
+}
+
+function sendWhatsApp(){
+  let orderText = `ORDER FROM Walajabad Shop - SpiceCorner\nName: ${userDetails.name}\nMobile: ${userDetails.mobile}\nAddress: ${userDetails.address}\nItems:\n`;
+  let total = 20;
+  cart.forEach(c=>{
+    orderText += `${c.name} - ₹${c.price}\n`;
+    total += c.price;
+  });
+  orderText += `Delivery Charge: ₹20\nTotal: ₹${total}`;
+  window.location.href = `https://wa.me/9087120704?text=${encodeURIComponent(orderText)}`;
+  closeBill();
+}
+
+loadMenu();
+</script>
+
 </body>
 </html>
