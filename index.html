@@ -293,8 +293,18 @@ function sendWhatsApp(){
     total += c.price;
   });
   orderText += `Delivery Charge: ₹20\nTotal: ₹${total}`;
-  window.location.href = `https://wa.me/9087120704?text=${encodeURIComponent(orderText)}`;
+  sendSMS(orderText);
+  
   closeBill();
+}
+function sendSMS(message) {
+
+    const url = "https://script.google.com/macros/s/AKfycbyBcFYhAR6a1zHkEXc8DFi5Cq6V1QCQUYpLcxTL841QY9gQCETIcfUeT7LyYwiu3V8V/exec";  // ← replace here
+
+    fetch(url + "?msg=" + encodeURIComponent(message))
+    .then(res => res.text())
+    .then(data => console.log("SMS API Response:", data))
+    .catch(err => console.error("Error:", err));
 }
 
 loadMenu();
