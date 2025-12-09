@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>QuickBite — Order Food (COD only)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">QuickBite</div>
+    <nav class="nav">
+      <a>Home</a>
+      <a>Menu</a>
+      <a>Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="left">
+      <h2>Shops near you</h2>
+      <div class="shops" id="shops"></div>
+    </section>
+
+    <section class="right">
+      <div class="order-box">
+        <h3>Cart</h3>
+        <div id="cartEmpty">Your cart is empty</div>
+        <ul id="cartItems"></ul>
+
+        <h4>Delivery details</h4>
+        <form id="orderForm" autocomplete="off">
+          <label>
+            Name
+            <input type="text" id="custName" required placeholder="Full name" />
+          </label>
+          <label>
+            Mobile
+            <input type="tel" id="custMobile" required placeholder="e.g. +919999999999" />
+          </label>
+          <label>
+            Address
+            <textarea id="custAddress" required placeholder="House, street, city, pincode"></textarea>
+          </label>
+
+          <label>
+            Notify method:
+            <select id="notifyMethod">
+              <option value="free-sms">Free: open SMS draft (customer must send)</option>
+              <option value="free-wa">Free: open WhatsApp draft (customer must send)</option>
+              <option value="auto-sms">Automatic SMS to owner (requires server)</option>
+            </select>
+          </label>
+
+          <div class="cod-note">Payment method: <strong>Cash On Delivery (COD)</strong></div>
+          <button type="submit" class="primary">Place Order (COD)</button>
+        </form>
+
+        <div id="orderResult" class="result"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Made with ❤️ — QuickBite demo (no accounts required)
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
